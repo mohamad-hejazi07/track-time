@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import Timertracker from "./TimeTracker";
+import Overview from "./Overview";
+import Statistic from "./Statistic";
 
 function App() {
+  /*Add the Data if exist in the List*/
+  const [timeList, setTimeList] = useState(() => {
+    const storagedData = localStorage.getItem("timeList");
+    return storagedData ? JSON.parse(storagedData) : [];
+  });
+
+  const history = useHistory();
+  const location = useLocation();
+
+  /*Save The data in the Local Storage after every change that happend on it */
+  useEffect(() => {
+    localStorage.setItem("timeList", JSON.stringify(timeList));
+  }, [timeList]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container box">
+        <nav className="breadcrumb is-centered" aria-label="breadcrumbs">
+          <ul>
+            {/* Add the Path for each List item */}
+            <li>
+              <a onClick={() => history.push("/timetracker")}>Timertracker</a>
+            </li>
+            <li>
+              <a onClick={() => history.push("/overview")}>Overview</a>
+            </li>
+            <li>
+              <a onClick={() => history.push("/statistic")}>Statistic</a>
+            </li>
+          </ul>
+        </nav>
+        {/* Check the Path name and reder only the needed Component */}
+        {location.pathname === "/timetracker" && <Timertracker onEndTime={(time) => setTimeList([...timeList, time])} />}
+        {location.pathname === "/overview" && <Overview timeList={timeList} onUpdate={(records) => setTimeList(records)} />}
+        {location.pathname === "/statistic" && <Statistic timeList={timeList} />}
+      </div>
     </div>
   );
 }
