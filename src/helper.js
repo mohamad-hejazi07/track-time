@@ -2,7 +2,8 @@
 export function convertToDateTime(timestamp) {
   return new Date(timestamp).toLocaleString();
 }
-/*Get S, M, H from the Time with the correct Layout */
+
+/*Convert Time to format "hh:mm:ss"*/
 export function convertTime(time) {
   const tempTime = new Date(time);
   return `${String("0" + tempTime.getUTCHours()).slice(-2)}:${String("0" + tempTime.getUTCMinutes()).slice(-2)}:${String(

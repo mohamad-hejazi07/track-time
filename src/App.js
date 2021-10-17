@@ -5,7 +5,7 @@ import Overview from "./Overview";
 import Statistic from "./Statistic";
 
 function App() {
-  /*Add the Data if exist in the List*/
+  /*Get the Data from localStorage if exist and save it in the List if not return empty list */
   const [timeList, setTimeList] = useState(() => {
     const storagedData = localStorage.getItem("timeList");
     return storagedData ? JSON.parse(storagedData) : [];
@@ -14,7 +14,7 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
-  /*Save The data in the Local Storage after every change that happend on it */
+  /*Update The data in the Local Storage after every change that happend on it */
   useEffect(() => {
     localStorage.setItem("timeList", JSON.stringify(timeList));
   }, [timeList]);
@@ -36,7 +36,7 @@ function App() {
             </li>
           </ul>
         </nav>
-        {/* Check the Path name and reder only the needed Component */}
+        {/* Check the Path name and Render only the needed Component */}
         {location.pathname === "/timetracker" && <Timertracker onEndTime={(time) => setTimeList([...timeList, time])} />}
         {location.pathname === "/overview" && <Overview timeList={timeList} onUpdate={(records) => setTimeList(records)} />}
         {location.pathname === "/statistic" && <Statistic timeList={timeList} />}

@@ -18,8 +18,9 @@ export default function Timetracker({ onEndTime }) {
 
     if (startTimer) {
       timer = setInterval(() => {
-        const secondCounter = counter % 60; // Get the Seconds
-        const minuteCounter = Math.floor(counter / 60); // Get the Minutes
+        //Convert counter to Strng format (MM:SS)
+        const secondCounter = counter % 60;
+        const minuteCounter = Math.floor(counter / 60);
         const calcSecond = `${String("0" + secondCounter).slice(-2)}`;
         const calcMinute = `${String("0" + minuteCounter).slice(-2)}`;
 
@@ -41,12 +42,12 @@ export default function Timetracker({ onEndTime }) {
   function handleSetTime() {
     if (!startTimer) {
       setStartTimer(true);
-      setTime({ start: Date.now(), end: "" }); //Start Counter Value
+      setTime({ start: Date.now(), end: "" });
       setCounter(1);
       return;
     }
     setStartTimer(false);
-    setTime({ ...time, end: Date.now() }); //End Counter Value
+    setTime({ ...time, end: Date.now() });
   }
 
   return (
